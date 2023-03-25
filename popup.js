@@ -6,6 +6,8 @@ const organizeTabs = async () => {
 
     // open ai magic
 
+    console.log(axios);
+
     const groupings = [];
     groupings.forEach(async (grouping) => {
         grouping.name
