@@ -1,10 +1,10 @@
-const BASE_PROMPT = "categorize the tabs into no more than 6 different groups by similarity according to their titles into this format: \n" +
+const BASE_PROMPT = "categorize the tabs into no more than 3 different groups by similarity according to their titles into this format: \n" +
     "```\n" +
     "[{\"label\": \"\", \"tabIds\":[\"\", \"\", \"\"]}, {\"label\": \"\", \"tabIds\":[\"\", \"\", \"\"]} ]\n" +
     "```\n" +
     "\n";
 
-const API_KEY = '';
+const API_KEY = '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';
 
 const organizeTabs = async (method) => {
     const tabs = await chrome.tabs.query({});   
@@ -43,26 +43,29 @@ const organizeTabs = async (method) => {
                 chrome.tabGroups.update(groupId, {
                     collapsed: false,
                     title: grouping.label
-                    });
+                    });    
             }
 
             if (method === 'window') {
                 chrome.windows.create({
                     tabId: grouping.tabIds[0],
                     focused: true
-                  }, (window) => {
-                    grouping.tabIds.slice(1, grouping.tabIds.length).forEach((tabId) => {
-                        chrome.tabs.move(tabId, { windowId: window.id, index: -1 });
-                    })
-                  });
+                    }, async (window) => {
+                        const groupId = await chrome.tabs.group({ createProperties: {windowId: window.id},
+                            tabIds: grouping.tabIds });
+                        chrome.tabGroups.update(groupId, {
+                            collapsed: false,
+                            title: grouping.label
+                            });  
+                    }
+                );
             }
         })
     }).catch( error  => {
         console.log(error);
     });
-
-
 }
+
 const init = () => {
     const groupButton = document.getElementById("group-button");
     groupButton.addEventListener("click", () => { organizeTabs('group') });
