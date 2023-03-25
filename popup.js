@@ -7,6 +7,11 @@ const BASE_PROMPT = "categorize the tabs into different groups by similarity acc
 const API_KEY = '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';
 
 const organizeTabs = async () => {
+    const groupsButton = document.getElementById("groups-button");
+    const windowsButton = document.getElementById("windows-button");
+    groupsButton.style.display = "none";
+    windowsButton.style.display = "none";
+
     const tabs = await chrome.tabs.query({});   
 
     const parsedTabs = []

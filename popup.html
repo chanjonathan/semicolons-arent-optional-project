@@ -1,14 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./popup.css" />
-    <script src="./axios.min.js"></script>
-  </head>
-  <body>
-    <button>Button</button>
-    <script src="./popup.js" type="module"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./popup.css" />
+  <script src="./axios.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="title" title style="display:inherit;"> TabTriage
+    </div>
+    <div class="message">How would you like your tabs organized?
+    </div>
+    <div class="all-buttons">
+      <button id="groups-button"> GROUPS
+      <script src="./popup.js" type="module"></script>
+    </button>
+      <button id="windows-button"> WINDOWS
+      <script src="./popup.js" type="module"></script>
+    </button>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <button class="buttonload">
+      <i class="fa fa-circle-o-notch fa-spin"></i> Loading
+    </button>
+    </div>
+  </div>
+
+</body>
+
 </html>
