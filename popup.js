@@ -1,6 +1,6 @@
 const BASE_PROMPT = "categorize the tabs into no more than 6 different groups by similarity according to their titles into this format: \n" +
     "```\n" +
-    "[{\"label\": \"\", \"tabIds\":[\"\", \"\", \"\"]}, {\"label\": \"\", \"tabIds\":[\"\", \"\", \"\"...]} ]\n" +
+    "[{\"label\": \"\", \"tabIds\":[\"\", \"\", \"\"]}, {\"label\": \"\", \"tabIds\":[\"\", \"\", \"\"]} ]\n" +
     "```\n" +
     "\n";
 
