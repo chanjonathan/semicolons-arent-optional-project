@@ -5,6 +5,10 @@
     "permissions": [
       "tabs", "tabGroups"
     ],
+    "icons": {
+      "16":"./iconimages/ironman-16.png",
+      "128":"./iconimages/ironman-128.png"
+    },
     "action": {
       "default_popup": "popup.html"
     }

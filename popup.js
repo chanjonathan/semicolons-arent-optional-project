@@ -4,9 +4,9 @@ const BASE_PROMPT = "categorize the tabs into different groups by similarity acc
     "```\n" +
     "\n";
 
-const API_KEY = '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';
+const API_KEY = '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';
 
-const organizeTabs = async () => {
+const organizeTabs = async (method) => {
     const tabs = await chrome.tabs.query({});   
 
     const parsedTabs = []
@@ -37,12 +37,29 @@ const organizeTabs = async () => {
         const groupings = JSON.parse(response.data.choices[0].text);
         
         groupings.forEach(async (grouping) => {
-            const groupId = await chrome.tabs.group({ tabIds: grouping.tabIds });
-            const tabGroups = await chrome.tabGroups;
-            tabGroups.update(groupId, {
-                 collapsed: false,
-                 title: grouping.label
-                });
+
+            if (method === 'group') {
+                const groupId = await chrome.tabs.group({ tabIds: grouping.tabIds });
+                const tabGroups = await chrome.tabGroups;
+                tabGroups.update(groupId, {
+                    collapsed: false,
+                    title: grouping.label
+                    });
+            }
+
+            if (method === 'window') {
+                chrome.windows.create({
+                    tabId: grouping.tabIds[0],
+                    focused: true
+                  }, (window) => {
+                    // move the tabs to the new window
+                    grouping.tabIds.forEach((tabId) => {
+                        chrome.tabs.move(tabId, { windowId: window.id, index: -1 });
+                    })
+                    // rename the window to the group name
+                    chrome.windows.update(window.id, { title: grouping.label });
+                  });
+            }
         })
     }).catch( error  => {
         console.log(error);
@@ -51,8 +68,10 @@ const organizeTabs = async () => {
 
 }
 const init = () => {
-    const button = document.querySelector("button");
-    button.addEventListener("click", organizeTabs);
+    const groupButton = document.getElementById("group-button");
+    groupButton.addEventListener("click", () => { organizeTabs('group') });
+    const windowButton = document.getElementById("window-button");
+    windowButton.addEventListener("click", () => { organizeTabs('window') });
 }
 
 init();
