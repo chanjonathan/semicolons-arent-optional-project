@@ -1,15 +1,16 @@
-const parsedTabs = [];
 const BASE_PROMPT = "categorize the tabs into different groups by similarity according to their titles into this format: \n" +
     "```\n" +
     "[{\"label\": \"\", \"tabId\":[\"\", \"\", \"\"...]}, {\"label\": \"\", \"tabId\":[\"\", \"\", \"\"...]}, ....]\n" +
     "```\n" +
     "Here are the tabs: \n";
 
+const API_KEY = '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'
 
 const organizeTabs = async () => {
     const tabs = await chrome.tabs.query({});   
     // console.log(tabs); 
-
+    
+    const parsedTabs = []
     
     for (var i = 0; i < tabs.length; i++) {
         parsedTabs.push({
@@ -21,8 +22,26 @@ const organizeTabs = async () => {
     console.log(BASE_PROMPT + JSON.stringify(parsedTabs));
 
     // open ai magic
-    console.log(axios);
+    const client = axios.create({
+        headers: { 'Authorization': 'Bearer ' + API_KEY }
+    });
 
+    const params = {
+    prompt: "what is one plus one",
+    model: "text-davinci-003", 
+    max_tokens: 1000,
+    temperature: 0.7,
+    top_p: 1,
+    frequency_penalty: 0,
+    presence_penalty: 0
+    }
+
+    client.post('https://api.openai.com/v1/completions', params)
+    .then( result => {
+        console.log(result.data.choices[0].text);
+    }).catch( err => {
+    console.log(err);
+    });
     const groupings = [];
     groupings.forEach(async (grouping) => {
         grouping.name
