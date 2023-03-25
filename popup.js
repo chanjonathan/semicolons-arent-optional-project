@@ -1,10 +1,10 @@
-const BASE_PROMPT = "categorize the tabs into different groups by similarity according to their titles into this format: \n" +
+const BASE_PROMPT = "categorize the tabs into no more than 6 different groups by similarity according to their titles into this format: \n" +
     "```\n" +
-    "[{\"label\": \"\", \"tabIds\":[\"\", \"\", \"\"...]}, {\"label\": \"\", \"tabIds\":[\"\", \"\", \"\"...]}, ....]\n" +
+    "[{\"label\": \"\", \"tabIds\":[\"\", \"\", \"\"]}, {\"label\": \"\", \"tabIds\":[\"\", \"\", \"\"]} ]\n" +
     "```\n" +
     "\n";
 
-const API_KEY = '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';
+const API_KEY = '';
 
 const organizeTabs = async (method) => {
     const tabs = await chrome.tabs.query({});   
@@ -40,8 +40,7 @@ const organizeTabs = async (method) => {
 
             if (method === 'group') {
                 const groupId = await chrome.tabs.group({ tabIds: grouping.tabIds });
-                const tabGroups = await chrome.tabGroups;
-                tabGroups.update(groupId, {
+                chrome.tabGroups.update(groupId, {
                     collapsed: false,
                     title: grouping.label
                     });
@@ -52,12 +51,9 @@ const organizeTabs = async (method) => {
                     tabId: grouping.tabIds[0],
                     focused: true
                   }, (window) => {
-                    // move the tabs to the new window
-                    grouping.tabIds.forEach((tabId) => {
+                    grouping.tabIds.slice(1, grouping.tabIds.length).forEach((tabId) => {
                         chrome.tabs.move(tabId, { windowId: window.id, index: -1 });
                     })
-                    // rename the window to the group name
-                    chrome.windows.update(window.id, { title: grouping.label });
                   });
             }
         })
