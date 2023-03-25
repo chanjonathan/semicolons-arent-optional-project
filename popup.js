@@ -2,16 +2,14 @@ const BASE_PROMPT = "categorize the tabs into different groups by similarity acc
     "```\n" +
     "[{\"label\": \"\", \"tabId\":[\"\", \"\", \"\"...]}, {\"label\": \"\", \"tabId\":[\"\", \"\", \"\"...]}, ....]\n" +
     "```\n" +
-    "Here are the tabs: \n";
+    "\n";
 
-const API_KEY = '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'
+const API_KEY = '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';
 
 const organizeTabs = async () => {
     const tabs = await chrome.tabs.query({});   
-    // console.log(tabs); 
-    
+
     const parsedTabs = []
-    
     for (var i = 0; i < tabs.length; i++) {
         parsedTabs.push({
             tabId: tabs[i].id,
@@ -21,13 +19,12 @@ const organizeTabs = async () => {
 
     console.log(BASE_PROMPT + JSON.stringify(parsedTabs));
 
-    // open ai magic
     const client = axios.create({
         headers: { 'Authorization': 'Bearer ' + API_KEY }
     });
 
     const params = {
-    prompt: "what is one plus one",
+    prompt: BASE_PROMPT + JSON.stringify(parsedTabs),
     model: "text-davinci-003", 
     max_tokens: 1000,
     temperature: 0.7,
@@ -36,14 +33,16 @@ const organizeTabs = async () => {
     presence_penalty: 0
     }
 
-    client.post('https://api.openai.com/v1/completions', params)
-    .then( result => {
-        console.log(result.data.choices[0].text);
-    }).catch( err => {
-    console.log(err);
-    });
-    const groupings = [];
+    response = await client.post('https://api.openai.com/v1/completions', params);
+
+    console.log(response);
+
+    const groupings = JSON.parse(response.data.choices[0].text);
+
+    console.log(groupings);
+
     groupings.forEach(async (grouping) => {
+        console.log(grouping);
         grouping.name
         const groupId = await chrome.tabs.group({ tabIds: grouping.tabIds });
         chrome.tabGroups.update(groupId, {
