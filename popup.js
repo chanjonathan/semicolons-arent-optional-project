@@ -4,7 +4,7 @@ const BASE_PROMPT = "categorize the tabs into no more than 3 different groups by
     "```\n" +
     "\n";
 
-const API_KEY = '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';
+const API_KEY = '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';
 
 const organizeTabs = async (method) => {
     const groupButton = document.getElementById("group-button");

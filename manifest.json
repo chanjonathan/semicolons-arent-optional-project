@@ -6,8 +6,8 @@
       "tabs", "tabGroups"
     ],
     "icons": {
-      "16":"./iconimages/ironman-16.png",
-      "128":"./iconimages/ironman-128.png"
+      "16":"./iconimages/icon.png",
+      "128":"./iconimages/icon.png"
     },
     "action": {
       "default_popup": "popup.html"
