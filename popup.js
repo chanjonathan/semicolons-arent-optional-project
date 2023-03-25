@@ -1,7 +1,8 @@
 const organizeTabs = async () => {
     const tabs = await chrome.tabs.query({});   
-    console.log(tabs[0].url);
-    console.log(tabs[0].title);
+    console.log(tabs[2].url);
+    console.log(tabs[2]);
+    console.log(tabs[2].title);
 
 
     // open ai magic
