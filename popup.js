@@ -8,10 +8,10 @@ const API_KEY = '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';
 
 const organizeTabs = async (method) => {
     const groupButton = document.getElementById("group-button");
-    const windowButton = document.getElementById("window-button");
+    // const windowButton = document.getElementById("window-button");
     const loadingScreen = document.getElementById('loading-screen');
     groupButton.style.display = "none";
-    windowButton.style.display = "none";
+    // windowButton.style.display = "none";
     loadingScreen.style.display = 'unset';
     
     const tabs = await chrome.tabs.query({});   
@@ -52,7 +52,7 @@ const organizeTabs = async (method) => {
                     title: grouping.label
                     });   
                     groupButton.style.display = "unset";
-                    windowButton.style.display = "unset";
+                    // windowButton.style.display = "unset";
                     loadingScreen.style.display = 'none'; 
             }
 
@@ -68,7 +68,7 @@ const organizeTabs = async (method) => {
                             title: grouping.label
                             });  
                         groupButton.style.display = "unset";
-                        windowButton.style.display = "unset";
+                        // windowButton.style.display = "unset";
                         loadingScreen.style.display = 'none';
                     }
                 );
@@ -79,7 +79,7 @@ const organizeTabs = async (method) => {
     }).catch( error  => {
         console.log(error);
         groupButton.style.display = "unset";
-        windowButton.style.display = "unset";
+        // windowButton.style.display = "unset";
         loadingScreen.style.display = 'none';
     });
 }
@@ -88,7 +88,7 @@ const init = () => {
     const groupButton = document.getElementById("group-button");
     groupButton.addEventListener("click", () => { organizeTabs('group') });
     const windowButton = document.getElementById("window-button");
-    windowButton.addEventListener("click", () => { organizeTabs('window') });
+    // windowButton.addEventListener("click", () => { organizeTabs('window') });
 }
 
 init();
