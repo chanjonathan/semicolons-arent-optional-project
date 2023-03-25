@@ -1,10 +1,10 @@
 const BASE_PROMPT = "categorize the tabs into different groups by similarity according to their titles into this format: \n" +
     "```\n" +
-    "[{\"label\": \"\", \"tabId\":[\"\", \"\", \"\"...]}, {\"label\": \"\", \"tabId\":[\"\", \"\", \"\"...]}, ....]\n" +
+    "[{\"label\": \"\", \"tabIds\":[\"\", \"\", \"\"...]}, {\"label\": \"\", \"tabIds\":[\"\", \"\", \"\"...]}, ....]\n" +
     "```\n" +
     "\n";
 
-const API_KEY = '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';
+const API_KEY = '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';
 
 const organizeTabs = async () => {
     const tabs = await chrome.tabs.query({});   
@@ -16,8 +16,6 @@ const organizeTabs = async () => {
             title: tabs[i].title
         });
     }
-
-    console.log(BASE_PROMPT + JSON.stringify(parsedTabs));
 
     const client = axios.create({
         headers: { 'Authorization': 'Bearer ' + API_KEY }
@@ -35,15 +33,11 @@ const organizeTabs = async () => {
     
     client.post('https://api.openai.com/v1/completions', params)
     .then( response => {
-        console.log(response);
 
         const groupings = JSON.parse(response.data.choices[0].text);
     
-        console.log(groupings);
-    
         groupings.forEach(async (grouping) => {
             console.log(grouping);
-            grouping.name
             const groupId = await chrome.tabs.group({ tabIds: grouping.tabIds });
             chrome.tabGroups.update(groupId, {
                  collapsed: false,
