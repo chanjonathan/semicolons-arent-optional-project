@@ -1,18 +1,25 @@
+const BASE_PROMPT = "categorize the tabs into different groups by similarity according to their titles into this format: \n" +
+    "```\n" +
+    "[{\"label\": \"\", \"tabId\":[\"\", \"\", \"\"...]}, {\"label\": \"\", \"tabId\":[\"\", \"\", \"\"...]}, ....]\n" +
+    "```\n" +
+    "Here are the tabs: \n";
+
 const API_KEY = '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'
 
 const organizeTabs = async () => {
     const tabs = await chrome.tabs.query({});   
     // console.log(tabs); 
-
-    const jsonArr = [];
+    
+    const parsedTabs = []
+    
     for (var i = 0; i < tabs.length; i++) {
-        jsonArr.push({
+        parsedTabs.push({
             tabId: tabs[i].id,
             title: tabs[i].title
         });
     }
 
-    console.log(jsonArr);
+    console.log(BASE_PROMPT + JSON.stringify(parsedTabs));
 
     // open ai magic
     const client = axios.create({
@@ -46,11 +53,6 @@ const organizeTabs = async () => {
     })
 }
 
-const prompt = "categorize the tabs into different groups by similarity according to their titles into this format: \n" +
-    "```\n" +
-    "[{\"label\": \"\", \"tabId\":[\"\", \"\", \"\"...]}, {\"label\": \"\", \"tabId\":[\"\", \"\", \"\"...]}, ....]\n" +
-    "```\n" +
-    "Here are the tabs: \n" + parsedTabs;
 
 const init = () => {
     const button = document.querySelector("button");

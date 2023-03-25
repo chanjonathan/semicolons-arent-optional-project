@@ -2,6 +2,9 @@
     "manifest_version": 3,
     "name": "semicolons arent optional project",
     "version": "1.0",
+    "permissions": [
+      "tabs"
+    ],
     "action": {
       "default_popup": "popup.html"
     },
