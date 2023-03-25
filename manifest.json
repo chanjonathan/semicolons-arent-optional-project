@@ -3,7 +3,7 @@
     "name": "semicolons arent optional project",
     "version": "1.0",
     "permissions": [
-      "tabs"
+      "tabs", "tabGroups"
     ],
     "action": {
       "default_popup": "popup.html"

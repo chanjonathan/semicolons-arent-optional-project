@@ -4,7 +4,7 @@ const BASE_PROMPT = "categorize the tabs into different groups by similarity acc
     "```\n" +
     "\n";
 
-const API_KEY = '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';
+const API_KEY = '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';
 
 const organizeTabs = async () => {
     const tabs = await chrome.tabs.query({});   
@@ -35,17 +35,17 @@ const organizeTabs = async () => {
     .then( response => {
 
         const groupings = JSON.parse(response.data.choices[0].text);
-    
+        
         groupings.forEach(async (grouping) => {
-            console.log(grouping);
             const groupId = await chrome.tabs.group({ tabIds: grouping.tabIds });
-            chrome.tabGroups.update(groupId, {
+            const tabGroups = await chrome.tabGroups;
+            tabGroups.update(groupId, {
                  collapsed: false,
                  title: grouping.label
                 });
         })
-    }).catch( err => {
-        console.log(err);
+    }).catch( error  => {
+        console.log(error);
     });
 
 
