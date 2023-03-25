@@ -1,5 +1,16 @@
 const organizeTabs = async () => {
-    const tabs = await chrome.tabs.query({});    
+    const tabs = await chrome.tabs.query({});   
+    // console.log(tabs); 
+
+    const jsonArr = [];
+    for (var i = 0; i < tabs.length; i++) {
+        jsonArr.push({
+            tabId: tabs[i].id,
+            title: tabs[i].title
+        });
+    }
+
+    console.log(jsonArr);
 
     // open ai magic
     console.log(axios);
