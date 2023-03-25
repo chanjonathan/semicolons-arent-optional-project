@@ -4,13 +4,15 @@ const BASE_PROMPT = "categorize the tabs into no more than 3 different groups by
     "```\n" +
     "\n";
 
-const API_KEY = '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';
+const API_KEY = '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';
 
 const organizeTabs = async (method) => {
-    const groupsButton = document.getElementById("groups-button");
-    const windowsButton = document.getElementById("windows-button");
-    groupsButton.style.display = "none";
-    windowsButton.style.display = "none";
+    const groupButton = document.getElementById("group-button");
+    const windowButton = document.getElementById("window-button");
+    const loadingScreen = document.getElementById('loading-screen');
+    groupButton.style.display = "none";
+    windowButton.style.display = "none";
+    loadingScreen.style.display = 'unset';
     
     const tabs = await chrome.tabs.query({});   
 
@@ -48,7 +50,10 @@ const organizeTabs = async (method) => {
                 chrome.tabGroups.update(groupId, {
                     collapsed: false,
                     title: grouping.label
-                    });    
+                    });   
+                    groupButton.style.display = "unset";
+                    windowButton.style.display = "unset";
+                    loadingScreen.style.display = 'none'; 
             }
 
             if (method === 'window') {
@@ -62,12 +67,20 @@ const organizeTabs = async (method) => {
                             collapsed: false,
                             title: grouping.label
                             });  
+                        groupButton.style.display = "unset";
+                        windowButton.style.display = "unset";
+                        loadingScreen.style.display = 'none';
                     }
                 );
             }
         })
+
+
     }).catch( error  => {
         console.log(error);
+        groupButton.style.display = "unset";
+        windowButton.style.display = "unset";
+        loadingScreen.style.display = 'none';
     });
 }
 

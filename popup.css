@@ -59,6 +59,10 @@ button{
   color: white; */
 }
 
+#loading-screen {
+  display: none;
+}
+
 .windows-button {
   padding: 10px;
   margin-left: 15px;
