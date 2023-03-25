@@ -56,7 +56,6 @@ const organizeTabs = async () => {
 
 
 }
-
 const init = () => {
     const button = document.querySelector("button");
     button.addEventListener("click", organizeTabs);
