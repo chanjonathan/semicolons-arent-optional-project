@@ -4,7 +4,7 @@ const BASE_PROMPT = "categorize the tabs into different groups by similarity acc
     "```\n" +
     "\n";
 
-const API_KEY = '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';
+const API_KEY = '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';
 
 const organizeTabs = async () => {
     const tabs = await chrome.tabs.query({});   
@@ -32,24 +32,29 @@ const organizeTabs = async () => {
     frequency_penalty: 0,
     presence_penalty: 0
     }
+    
+    client.post('https://api.openai.com/v1/completions', params)
+    .then( response => {
+        console.log(response);
 
-    response = await client.post('https://api.openai.com/v1/completions', params);
+        const groupings = JSON.parse(response.data.choices[0].text);
+    
+        console.log(groupings);
+    
+        groupings.forEach(async (grouping) => {
+            console.log(grouping);
+            grouping.name
+            const groupId = await chrome.tabs.group({ tabIds: grouping.tabIds });
+            chrome.tabGroups.update(groupId, {
+                 collapsed: false,
+                 title: grouping.label
+                });
+        })
+    }).catch( err => {
+        console.log(err);
+    });
 
-    console.log(response);
 
-    const groupings = JSON.parse(response.data.choices[0].text);
-
-    console.log(groupings);
-
-    groupings.forEach(async (grouping) => {
-        console.log(grouping);
-        grouping.name
-        const groupId = await chrome.tabs.group({ tabIds: grouping.tabIds });
-        chrome.tabGroups.update(groupId, {
-             collapsed: false,
-             title: grouping.label
-            });
-    })
 }
 
 const init = () => {
