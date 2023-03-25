@@ -7,6 +7,11 @@ const BASE_PROMPT = "categorize the tabs into no more than 3 different groups by
 const API_KEY = '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';
 
 const organizeTabs = async (method) => {
+    const groupsButton = document.getElementById("groups-button");
+    const windowsButton = document.getElementById("windows-button");
+    groupsButton.style.display = "none";
+    windowsButton.style.display = "none";
+    
     const tabs = await chrome.tabs.query({});   
 
     const parsedTabs = []
