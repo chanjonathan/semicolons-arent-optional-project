@@ -1,4 +1,5 @@
-# OpenAI-powered Chrome Tab Grouper
+# TabTriage
+## OpenAI-powered Chrome Tab Grouper
 
 The OpenAI-powered Chrome Tab Grouper is a Chrome extension that uses OpenAI API to group tabs by similarity based on their titles. It is built using HTML, JS, and CSS.
 
@@ -20,6 +21,8 @@ The OpenAI-powered Chrome Tab Grouper is a Chrome extension that uses OpenAI API
 This extension utilizes the following dependencies:
 
 -   [OpenAI API](https://beta.openai.com/)
+## Contributors
+Jonathan Chan, Amy Chen, Andy Hu, Wei Wang, and Jessica Yu
 
 ## License
 
